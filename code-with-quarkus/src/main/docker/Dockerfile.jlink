@@ -3,7 +3,7 @@ RUN ["/usr/lib/jvm/java-17-openjdk-amd64/bin/jlink","--add-modules" \
    ,"java.base,java.logging,java.naming,jdk.zipfs,jdk.unsupported","--output","/tmp/jdk-base"]
 
 
-FROM gcr.io/distroless/java-base-debian11:debug
+FROM gcr.io/distroless/java-base-debian11:nonroot
 COPY --from=base /tmp/jdk-base /usr/java
 ENV JAVA_HOME /usr/java
 ENV PATH $PATH:/usr/java/bin

@@ -14,31 +14,11 @@ auto-scaling: true
   }
 </style>
 
-![bg left:40% 80%](https://marp.app/assets/marp.svg)
+# **Rodando JAVA em ambientes container**
 
-# **Marp**
+As melhores estratégias para minimizar o tempo de startup da JVM
 
-Markdown Presentation Ecosystem
-
-https://marp.app/
-
----
-
-# How to write slides
-
-Split pages by horizontal ruler (`---`). It's very simple! :satisfied:
-
-```markdown
-# Slide 1
-
-foobar
-
----
-
-# Slide 2
-
-foobar
-```
+## George Tavares
 
 ---
 
@@ -64,6 +44,24 @@ docker run --cpus=1 -it -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=1 quarkus/code
 ```
 
 ![height:290px](images/petclinic.png)
+
+---
+
+# E o classloader? Ele pode ser mais esperto?
+
+- Class Data Sharing/App Data sharing
+- Classloader convencional procura as classes nos jars da aplicação de uma forma linear O(n)
+- Quarkus fast-jar gera um "HashMap" da localização da classe no classpath
+
+```
+docker build -f src/main/docker/Dockerfile.legacy-jar -t quarkus/code-with-quarkus-legacy-jar .
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/code-with-quarkus-jvm .
+```
+
+```
+docker run -i --cpus=0.7 --rm -p 8080:8080 quarkus/code-with-quarkus-legacy-jar
+docker run -i --cpus=0.7 --rm -p 8080:8080 quarkus/code-with-quarkus-jvm
+```
 
 ---
 
@@ -139,6 +137,10 @@ docker images |grep code-with-quarkus-customdistroless
 - _jdeps_ permite vasculhar o que seu programa usa
 - pode ir rodando e descobrir o que vai faltando
 
+```
+cker build -f src/main/docker/Dockerfile.jlink -t distromini .
+```
+
 ---
 
 # E o nativo?
@@ -178,3 +180,34 @@ Arrays.stream(persons)
 
 <a class="small-text" href="https://www.baeldung.com/jvm-tiered-compilation">https://www.baeldung.com/jvm-tiered-compilation</a>
 <a class="small-text" href="https://www.graalvm.org/latest/reference-manual/native-image/guides/optimize-native-executable-with-pgo/">https://www.graalvm.org/latest/reference-manual/native-image/guides/optimize-native-executable-with-pgo/</a>
+
+---
+
+# Crac - Coordinated Restore at Checkpoint
+
+- Técnica de gerar snapshots do processo java e restaurar deste ponto
+- Interface de callbacks para ajustar os recursos volateis
+- AWS Snapstart
+- Azul Zulu JVM já possui suporte
+- Eclipse Open J9/Instant On
+
+<a class="small-text" href="https://www.azul.com/blog/reduce-java-application-startup-and-warmup-times-with-crac/">https://www.azul.com/blog/reduce-java-application-startup-and-warmup-times-with-crac/</a>
+<a class="small-text" href="https://foojay.io/today/how-we-developed-the-eclipse-openj9-criu-support-for-fast-java-startup/">https://foojay.io/today/how-we-developed-the-eclipse-openj9-criu-support-for-fast-java-startup/</a>
+
+---
+
+# George Tavares
+
+##### Desenvolvedor na Noson
+
+##### Devops na arqgen
+
+- Entusiasta de tecnologia, adoro estudar infraestrutura e devops
+- Tiro certificações nas horas vagas: 4xAWS, 5xAZURE, CKA, CKS, Elastic Engeneering, Elastic Observability …
+- Vencedor do 1o K8S ULC da Linuxtips
+
+### https://github.com/tanquetav/lab-observabilidade
+
+### https://www.linkedin.com/in/tavaresgeorge/
+
+Perguntas?
