@@ -1,11 +1,10 @@
 ---
-theme: 
 marp: true
+theme: uncover
 _class: lead
 backgroundColor: #fff
 theme: enable-all-auto-scaling
-auto-scaling: true   
-
+auto-scaling: true
 ---
 
 <style >
@@ -186,6 +185,7 @@ Arrays.stream(persons)
 # Crac - Coordinated Restore at Checkpoint
 
 - Técnica de gerar snapshots do processo java e restaurar deste ponto
+- Criu
 - Interface de callbacks para ajustar os recursos volateis
 - AWS Snapstart
 - Azul Zulu JVM já possui suporte
