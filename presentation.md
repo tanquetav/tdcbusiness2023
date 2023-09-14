@@ -1,7 +1,7 @@
 ---
 marp: true
 theme: uncover
-_class: lead
+_class: invert
 backgroundColor: #fff
 theme: enable-all-auto-scaling
 auto-scaling: true

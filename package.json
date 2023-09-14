@@ -1,0 +1,15 @@
+{
+  "name": "tdcbusiness2023",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "marp --html --allow-local-files presentation.md",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@marp-team/marp-cli": "^3.2.1"
+  }
+}
