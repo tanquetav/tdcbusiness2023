@@ -21,14 +21,24 @@ As melhores estratégias para minimizar o tempo de startup da JVM
 
 ---
 
+# Tópicos
+
+- Tier Compilation
+- Classloader Issues
+- Container Size
+- Native Compilation
+- Crac
+
+---
+
 # Tier Compilation
 
 Habilidade de configurar qual o nível de otimização a JVM vai alcançar:
 ![height:290px](images/TieredCompilation_1.png)
 
 ```
-docker run -it -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=4 quarkus/code-with-quarkus-jvm
-docker run -it -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=1 quarkus/code-with-quarkus-jvm
+docker run -it -p 8080:8080 -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=4 quarkus/simple
+docker run -it -p 8080:8080 -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=1 quarkus/simple
 ```
 
 <a class="small-text" href="https://jpbempel.github.io/2020/05/22/startup-containers-tieredcompilation.html">https://jpbempel.github.io/2020/05/22/startup-containers-tieredcompilation.html</a>
@@ -38,11 +48,15 @@ docker run -it -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=1 quarkus/code-with-qua
 # Tier Compilation
 
 ```
-docker run --cpus=1 -it -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=4 quarkus/code-with-quarkus-jvm
-docker run --cpus=1 -it -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=1 quarkus/code-with-quarkus-jvm
+docker run --cpus=1 -it -p 8080:8080 -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=4 quarkus/simple
+docker run --cpus=1 -it -p 8080:8080 -e JAVA_OPTS_APPEND=-XX:TieredStopAtLevel=1 quarkus/simple
 ```
 
 ![height:290px](images/petclinic.png)
+
+```
+curl http://localhost:8080/hello/compiletime
+```
 
 ---
 
@@ -137,7 +151,7 @@ docker images |grep code-with-quarkus-customdistroless
 - pode ir rodando e descobrir o que vai faltando
 
 ```
-cker build -f src/main/docker/Dockerfile.jlink -t distromini .
+docker build -f src/main/docker/Dockerfile.jlink -t distromini .
 ```
 
 ---
@@ -196,6 +210,25 @@ Arrays.stream(persons)
 
 ---
 
+# Fn project
+
+- oracle function
+- possui uma infraestrutra disponivel para testes locais com docker
+
+```
+docker run --rm -i --name fnserver -v $HOME/.fn/iofs:/iofs -e FN_IOFS_DOCKER_PATH=$HOME/.fn/iofs \
+ -e FN_IOFS_PATH=/iofs -v $HOME/.fn/data:/app/data -v /var/run/docker.sock:/var/run/docker.sock  \
+ --privileged -p 8080:8080 --entrypoint ./fnserver tanquetav/fn-crac:latest
+fn deploy --app server --local
+fn invoke server fndemo
+```
+
+![height:300px](images/fn.png)
+
+<a class="small-text" href="https://tavares-george.medium.com/using-crac-with-the-fn-project-d5ea6ac64cb0">https://tavares-george.medium.com/using-crac-with-the-fn-project-d5ea6ac64cb0</a>
+
+---
+
 # George Tavares
 
 ##### Desenvolvedor na Noson
@@ -206,7 +239,9 @@ Arrays.stream(persons)
 - Tiro certificações nas horas vagas: 4xAWS, 5xAZURE, CKA, CKS, Elastic Engeneering, Elastic Observability …
 - Vencedor do 1o K8S ULC da Linuxtips
 
-### https://github.com/tanquetav/lab-observabilidade
+### https://github.com/tanquetav/tdcbusiness2023
+
+![bg right:20% height:200px](images/qrcode.png)
 
 ### https://www.linkedin.com/in/tavaresgeorge/
 
