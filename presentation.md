@@ -103,7 +103,7 @@ docker build -f src/main/docker/Dockerfile.jvm -t quarkus/code-with-quarkus-jvm 
 ```
 
 ```bash
-docker images |grep code-with-quarkus-jvm
+docker images |grep code-with-quarkus
 ```
 
 Usando imagem ubi8 da redhat, com a JVM da redhat
@@ -119,7 +119,7 @@ docker build -f src/main/docker/Dockerfile.distroless -t quarkus/code-with-quark
 ```
 
 ```bash
-docker images |grep code-with-quarkus-distroless
+docker images |grep code-with-quarkus
 ```
 
 Distroless são containers mais enxutos, contendo o mínimo de um debian, SEM shell (existe versão com/sem shell de debug, rodando como root/nonroot)
@@ -136,7 +136,7 @@ docker build -f src/main/docker/Dockerfile.customdistroless -t quarkus/code-with
 ```
 
 ```bash
-docker images |grep code-with-quarkus-customdistroless
+docker images |grep code-with-quarkus
 ```
 
 ---
@@ -165,7 +165,7 @@ docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/code-with-qua
 ```
 
 ```bash
-docker images |grep code-with-quarkus-micronative
+docker images |grep code-with-quarkus
 ```
 
 ---
